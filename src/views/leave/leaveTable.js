@@ -25,7 +25,7 @@ function Customrow(props){
   const [show,setShow] = React.useState(false)
   return(
     <>
-      <TableRow key={props.row.id}>
+      <TableRow key={props.row['Apply Date']}>
       <TableCell >{props.row['Apply Date'].split('.')[0].split(' ')[0]}</TableCell>
       <TableCell >{props.row['Start Date']}</TableCell>
       <TableCell >{props.row['End Date']}</TableCell>

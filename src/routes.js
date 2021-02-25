@@ -12,6 +12,11 @@ import TaskView from 'src/views/task';
 import ProductListView from 'src/views/product/ProductListView';
 import SettingsView from 'src/views/settings/SettingsView';
 
+// admin components
+import AdminDashBoardView from 'src/views/Admin/dashboard'
+import EmployeesView from 'src/views/Admin/employee'
+import DesignationView from 'src/views/Admin/Designation'
+
 const routes  = (isLoggedIn) => [
   {
     path: 'employee',
@@ -29,9 +34,9 @@ const routes  = (isLoggedIn) => [
     path: 'admin',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to='/'/> ,
     children: [
-      { path: 'dashboard', element: <AccountView /> },
-      { path: 'attendance', element: <CustomerListView /> },
-      { path: 'task', element: <DashboardView /> },
+      { path: 'dashboard', element: <AdminDashBoardView /> },
+      { path: 'employees', element: <EmployeesView /> },
+      { path: 'designation', element: <DesignationView /> },
       { path: 'leave', element: <ProductListView /> },
       { path: 'settings', element: <SettingsView /> },
       { path: 'salary', element: <SettingsView /> },
@@ -44,6 +49,7 @@ const routes  = (isLoggedIn) => [
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to='/'/> ,
     children: [
       { path: 'dashboard', element: <AccountView /> },
+      { path: 'personal', element: <AccountView /> },
       { path: 'attendance', element: <CustomerListView /> },
       { path: 'task', element: <DashboardView /> },
       { path: 'leave', element: <ProductListView /> },

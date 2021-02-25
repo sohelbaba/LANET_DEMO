@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Avatar,
+  Typography,
   Box,
+  Grid,
   Divider,
   Drawer,
   Hidden,
@@ -65,14 +67,14 @@ const getListItems = (role) =>{
               title: 'Dashboard'
             },
             {
-              href: '/admin/attendance',
+              href: '/admin/employees',
               icon: UsersIcon,
-              title: 'Manage Attendance'
+              title: 'Manage Employees'
             },
             {
-              href: '/admin/task',
+              href: '/admin/designation',
               icon: AssignmentTurnedInOutlinedIcon,
-              title: 'Manage Task'
+              title: 'Manage Designations'
             },
             {
               href: '/admin/leave',
@@ -150,13 +152,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const NavBar = ({ onMobileClose, openMobile}) => {
+const NavBar = ({ onMobileClose, openMobile, displayname}) => {
   const classes = useStyles();
   const role = localStorage.getItem('role')
   const user = {
     avatar: '/static/images/avatars/avatar_5.png',
     jobTitle: role,
-    // name: 'Employee'
   };
 
 
@@ -164,10 +165,17 @@ const NavBar = ({ onMobileClose, openMobile}) => {
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
       <Box alignItems="center" display="flex" flexDirection="column" p={2}>
-        <Avatar className={classes.avatar} src={user.avatar}/>
-        {/* <Typography color="textPrimary" variant="h4" style={{textTransform:'capitalize',margin:'12px auto'}}>
-          {user.jobTitle}
-        </Typography> */}
+        <Grid container spacing={3}>
+          <Grid item xs={4}>
+            <Avatar className={classes.avatar} src={user.avatar}/>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography color="textPrimary" variant="h5" style={{textTransform:'capitalize',margin:'12px auto'}}>
+              {user.jobTitle}
+            </Typography>
+            
+          </Grid>
+        </Grid>
       </Box>
       <Divider />
       <Box p={2}>
