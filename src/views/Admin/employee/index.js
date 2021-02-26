@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container,Card,Grid,Button,Divider,Typography,makeStyles} from '@material-ui/core';
+import { Container,Button,makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
 import EmployeeList from './employeeList'
 import Modal from './Modal'
 import {connect} from 'react-redux'
-import {get_designations,fetch_employeedata_start} from 'src/store/action/Admin'
+import {add_employee,get_designations,fetch_employeedata_start} from 'src/store/action/Admin'
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
@@ -25,11 +25,14 @@ const Employeedesh = (props) => {
   
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
+  const [emp,setEmp] = React.useState(null)
+  const [error,setError] = React.useState(null)
 
   const employee = {
     username : '',
     password : '',
     role : '',
+    email: '',
     designation :'',
     joiningdate: ''
   }
@@ -39,21 +42,30 @@ const Employeedesh = (props) => {
   React.useEffect(()=>{
     props.OnFetchDesignation(props.token)
     props.OnFetchEmployeeData(props.token)
-  },[])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[emp])
 
-  const handlechange = (e) =>{ employee[e.target.name] = e.target.value}
+  const handlechange = (e) =>{ 
+    employee[e.target.name] = e.target.value
+  }
 
   const onclose = (e) =>{setShow(false)}
   
   const submit = (e) =>{
+    
     e.preventDefault()
     setOpen(true)
     setShow(false)
-
+    
     // auto generated password get
     employee.password = e.target.password.value
-    console.log(employee)    
-    // props.onTaskAdd(newtask,props.token)
+    
+    setEmp(employee)
+    setError(null)
+
+    props.OnAddEmployee(employee,props.token)
+    
+    
   }
 
   let showsnak = null
@@ -63,7 +75,7 @@ const Employeedesh = (props) => {
           <Snackbar open={open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={2000} onClose={() => setOpen(false)}>
             <Alert onClose={() => setOpen(false)} severity="success">
               {/* {props.AddressDetails === undefined ? 'Details Are Added.' : 'Details Are Updated.'} */}
-              Task Added..
+              Employee Added..
             </Alert>
           </Snackbar>
         </div>
@@ -75,13 +87,14 @@ const Employeedesh = (props) => {
     modal =<Modal 
     show={show} 
     submit={submit}
+    error ={error}
     handlecancle={onclose} 
     handlechange={handlechange} />
   }
 
   return (
     <>
-    <Page className={classes.root} title="Leave">
+    <Page className={classes.root} title="Employees">
       
       <Container style={{paddingTop:'15px'}}>
       {modal}
@@ -102,14 +115,16 @@ const Employeedesh = (props) => {
 const maptostate = state =>{
   return{
     token : state.auth.token,
-    designation : state.admin.designation
+    designation : state.admin.designation,
+    error : state.admin.error
   }
 }
 
 const maptodispatch = dispatch =>{
   return{
     OnFetchEmployeeData : (token) => dispatch(fetch_employeedata_start(token)),
-    OnFetchDesignation : (token) => dispatch(get_designations(token))
+    OnFetchDesignation : (token) => dispatch(get_designations(token)),
+    OnAddEmployee : (data,token) => dispatch(add_employee(data,token))
   }
 }
 

@@ -31,6 +31,7 @@ const Dashboard = (props) => {
     React.useEffect(() =>{
         // console.log('admin dash')
         props.OnFetchEmployeesData(props.token)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
 

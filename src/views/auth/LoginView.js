@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate,Navigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Formik } from 'formik';
@@ -34,24 +34,19 @@ const LoginView = (props) => {
       if(props.role === 'Admin'){
          navigate('/admin/dashboard', { replace: true });
       } 
-
-      //fetch all data when login 
-      // if(props.token !== null){
-      //   console.log('use effect')
-      //   props.OnLoginFetchData(props.token)
-      // }
-      
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[props.isAuthenticate])
 
-  let error = null  
-  console.log(error)
-  if(props.serverFail){
-    error = <Navigate to="/500" />
-  }
+  // let error = null  
+  // console.log(error)
+  // if(props.serverFail){
+  //   error = <Navigate to="/500" />
+  // }
 
   return (
     <>
-    {error}
+      {/* {error} */}
       <Page className={classes.root} title="Login">
         <Box display="flex" flexDirection="column" height="100%" justifyContent="center" >
          <Container maxWidth="xs">
@@ -108,17 +103,10 @@ const LoginView = (props) => {
                   />
                   
                   <Box my={2}>
-                    <Button
-                      color="primary"
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
+                    <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                     {isSubmitting 
-                            ? props.error !== null ? 'Log in' : <CircularProgress style={{color:'white'}}color="primary" /> 
-                            : 'Log in'}
-        
+                      ? props.error !== null ? 'Log in' : <CircularProgress style={{color:'white'}}/> 
+                      : 'Log in'}
                     </Button>
                   </Box>
                 </form>

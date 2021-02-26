@@ -21,23 +21,35 @@ function generatePassword() {
     return retVal;
 }
 
-const role =[
-  {'role' : 'Hr'},
-  {'role' : 'Employee'}
-]
-
 function AddEmployeeModel({
   handlechange,
   handlecancle,
   show,
   submit,
-  designations
+  designations,
+  loginrole,
+  error
   }) {
   console.log(designations)
+ 
+  const Adminrole =[
+    {'role' : 'Hr'},
+    {'role' : 'Employee'}   
+  ]
+
+  const HrRole = [
+    {'role' : 'Employee'}   
+  ]
+
   return (
     <div>
       <Dialog open={show} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" >Add Employee</DialogTitle>
+        {/* {error !== null 
+        ? <Alert variant="outlined" severity="error">
+            {error}
+          </Alert>
+        : null} */}
         <form onSubmit={submit}>
           <DialogContent>
               <TextField
@@ -61,6 +73,15 @@ function AddEmployeeModel({
                   variant="outlined"
                   required
               />
+              <TextField
+                  margin="dense"
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  onChange={handlechange}
+                  variant="outlined"
+                  required
+              />
               
               <FormControl style={{margin:'10px auto'}} variant="outlined" fullWidth>
                   <InputLabel id="demo-simple-select-outlined-label">Role</InputLabel>
@@ -71,7 +92,11 @@ function AddEmployeeModel({
                       label="Role"
                       required
                     >
-                    {role.map((val,index)=>(
+                    {loginrole !== 'Admin' 
+                    ? HrRole.map((val,index)=>(
+                      <MenuItem key={index} value={val.role}>{val.role}</MenuItem>  
+                    ))
+                    : Adminrole.map((val,index)=>(
                       <MenuItem key={index} value={val.role}>{val.role}</MenuItem>  
                     ))}
                   </Select>
@@ -123,6 +148,7 @@ function AddEmployeeModel({
 
 const maptostate = state => {
   return {
+    loginrole : state.auth.role,
     designations : state.admin.designation.designation
   }
 }

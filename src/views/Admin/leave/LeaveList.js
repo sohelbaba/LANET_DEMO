@@ -31,17 +31,8 @@ function Customrow(props){
     </>
     )
 }
-// [
-//     {   'ID' : "1",
-//         'Username': "Samir.shah",
-//         'Designation' : "Sr. Developer",
-//         'Status' : 'Active',
-//         'JoiningDate' : '12/06/2000',
-//         'details' : 'xyz'
-//     }
-//   ]
 
-function EmployeeList(props) {
+function LeaveList(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);  
@@ -89,14 +80,14 @@ function EmployeeList(props) {
 }
 
 const maptostate = state =>{
-  
+  console.log(state.admin)
   return{
     // token : state.auth.token,
     employees : state.admin.employees.Employees
   }
 }
 
-export default connect(maptostate)(EmployeeList)
+export default connect(maptostate)(LeaveList)
 
 
 

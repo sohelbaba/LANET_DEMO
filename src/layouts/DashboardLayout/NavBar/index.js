@@ -21,7 +21,11 @@ import {
 import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import NavItem from './NavItem';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import {connect} from 'react-redux'
+import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 const getListItems = (role) =>{
   switch (role) {
@@ -73,28 +77,28 @@ const getListItems = (role) =>{
             },
             {
               href: '/admin/designation',
-              icon: AssignmentTurnedInOutlinedIcon,
+              icon: HowToRegIcon,
               title: 'Manage Designations'
             },
             {
+              href: '/admin/task',
+              icon: AssignmentIcon,
+              title: 'Manage Task'
+            },
+            {
               href: '/admin/leave',
-              icon: UserIcon,
+              icon: TransferWithinAStationIcon,
               title: 'Manage Leave'
             },
             {
               href: '/admin/salary',
-              icon: AssignmentOutlinedIcon,
+              icon: AccountBalanceWalletIcon,
               title: 'Manage Salary'
             },
             {
-              href: '/admin/designation',
-              icon: UserPlusIcon,
-              title: 'Manage Designation'
-            },
-            {
-              href: '/admin/settings',
+              href: '/admin/changepassword',
               icon: SettingsIcon,
-              title: 'Settings'
+              title: 'Change Password'
             }
           ])
 

@@ -13,7 +13,9 @@ import {connect} from 'react-redux'
 const App = ({onAutoSignIn}) => {
 
   const token = localStorage.getItem('token') 
-  const routing = useRoutes(routes(token !== null));
+  const role = localStorage.getItem('role')
+
+  const routing = useRoutes(routes(token !== null,role));
 
   React.useEffect(() =>{
     onAutoSignIn()

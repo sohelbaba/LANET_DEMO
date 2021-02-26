@@ -27,6 +27,7 @@ const Form = (props) => {
 
     React.useEffect(() =>{
       props.OnFetchUserData(props.token)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[data])
 
     const handleClick = () => {
@@ -68,7 +69,8 @@ const Form = (props) => {
         <div className={classes.root}>
           <Snackbar open={open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} autoHideDuration={2000} onClose={() => setOpen(false)}>
             <Alert onClose={() => setOpen(false)} severity="success">
-              {props.PersonDetails === undefined ? 'Details Are Added.' : 'Details Are Updated.'}
+              Details Are Added.
+              {/* {props.PersonDetails === undefined ? 'Details Are Added.' : 'Details Are Updated.'} */}
             </Alert>
           </Snackbar>
         </div>

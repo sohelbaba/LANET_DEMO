@@ -41,28 +41,20 @@ const Dashboard = (props) => {
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
   const [data,setData] = React.useState(null)
-  
+  const leavedata = {ltype : '',startdate : '',enddate :'',desc : ''}
+
   React.useEffect(() =>{
     props.OnFetchData(props.token)
-  },[data])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
-  let leavedata = {
-    'ltype' : '',
-    'startdate' : '',
-    'enddate' :'',
-    'desc' : ''
-  }
+  
 
   const handleClickOpen = () => setOpen(true)
   const onChangeHandler = (e) => leavedata[e.target.name] = e.target.value
   
   const handleClose = () =>{
-    leavedata = {
-      'ltype' : '',
-      'startdate' : '',
-      'enddate' :'',
-      'desc' : ''
-    }
+    // leavedata = {ltype : '',startdate : '',enddate :'',desc : ''}
     setOpen(false)
   }
 
@@ -107,7 +99,7 @@ const Dashboard = (props) => {
         onChangeHandler ={onChangeHandler}
       />
       <Divider/>
-      <Container style={{marginTop:'15px'}}></Container>
+      {/* <Container style={{marginTop:'15px'}}></Container> */}
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Apply Leave
       </Button>

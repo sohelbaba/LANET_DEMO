@@ -30,6 +30,11 @@ const AdminReducer = (state = init_state,action) =>{
                 ...state,
                 designation : action.data
             }
+        case actionTypes.SET_DATA_ERROR:
+            return{
+                ...state,
+                error : action.error
+            }
         default:
             return state;
     }

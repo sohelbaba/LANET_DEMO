@@ -16,17 +16,18 @@ import SettingsView from 'src/views/settings/SettingsView';
 import AdminDashBoardView from 'src/views/Admin/dashboard'
 import EmployeesView from 'src/views/Admin/employee'
 import DesignationView from 'src/views/Admin/Designation'
+import TaskListView from 'src/views/Admin/task'
+import LeaveListView from 'src/views/Admin/leave'
 
-const routes  = (isLoggedIn) => [
+const routes  = (isLoggedIn,role) => [
   {
     path: 'employee',
-    element: <DashboardLayout />,
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to='/'/> ,
     children: [
-      { path: 'dashboard', element: <AccountView /> },
-      { path: 'task', element: <TaskView /> },
-      { path: 'leave', element: <LeaveView /> },
-      { path: 'changepassword', element: <SettingsView /> },
+      { path: 'dashboard', element: role === 'Employee' ? <AccountView /> : <Navigate to="/404" /> },
+      { path: 'task', element: role === 'Employee' ? <TaskView /> : <Navigate to="/404" /> },
+      { path: 'leave', element: role === 'Employee' ? <LeaveView /> : <Navigate to="/404"/> },
+      { path: 'changepassword', element: role === 'Employee' ? <SettingsView /> : <Navigate to="/404"/> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },
@@ -34,13 +35,13 @@ const routes  = (isLoggedIn) => [
     path: 'admin',
     element: isLoggedIn ? <DashboardLayout /> : <Navigate to='/'/> ,
     children: [
-      { path: 'dashboard', element: <AdminDashBoardView /> },
-      { path: 'employees', element: <EmployeesView /> },
-      { path: 'designation', element: <DesignationView /> },
-      { path: 'leave', element: <ProductListView /> },
-      { path: 'settings', element: <SettingsView /> },
+      { path: 'dashboard', element: role === 'Admin' ? <AdminDashBoardView /> : <Navigate to="/404" />},
+      { path: 'employees', element: role === 'Admin' ? <EmployeesView /> : <Navigate to="/404" /> },
+      { path: 'designation', element: role === 'Admin' ? <DesignationView /> : <Navigate to="/404" /> },
+      { path: 'task', element: role === 'Admin' ? <TaskListView /> : <Navigate to="/404" />},
+      { path: 'leave', element: role === 'Admin' ? <LeaveListView /> : <Navigate to="/404" />},
       { path: 'salary', element: <SettingsView /> },
-      { path: 'designation', element: <SettingsView /> },
+      { path: 'changepassword', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   },

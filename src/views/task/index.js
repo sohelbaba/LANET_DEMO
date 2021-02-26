@@ -30,6 +30,7 @@ const Dashboard = (props) => {
   
   React.useEffect(()=>{
     props.OnFetchUserData(props.token)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[newtask])
 
   const onclose = (e) =>{

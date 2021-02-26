@@ -4,19 +4,15 @@ import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import {
-  Box,
   Button,
   Card,
   CardHeader,
   Divider,
-  IconButton,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   makeStyles
 } from '@material-ui/core';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 const data = [
@@ -63,13 +59,11 @@ const LatestProducts = ({ className, ...rest }) => {
         ))}
       </List>
       <Divider />
-      <CardActionArea>
           <CardActions>
                 <Button color="primary" endIcon={<KeyboardArrowRightIcon />} size="small" variant="text">
                      View all
                 </Button>   
           </CardActions>
-      </CardActionArea>
     </Card>
   );
 };

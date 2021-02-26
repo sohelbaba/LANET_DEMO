@@ -15,6 +15,13 @@ const error_fetchdata = (data) =>{
     }
 }
 
+const Set_Error = (error) => {
+    return {
+        type:actionTypes.SET_DATA_ERROR,
+        error
+    }
+}
+
 const Server_Error =  (error) =>{
     return{
         type : actionTypes.SERVER_ERROR,
@@ -66,7 +73,8 @@ export const get_designations = (token) => {
             // dispatch(Server_Error(error))
         })
     }
-} 
+}
+
 export const add_designation_start = (data,token) =>{
     return dispatch =>{
         const yourConfig = {
@@ -82,6 +90,25 @@ export const add_designation_start = (data,token) =>{
         })
         .catch(error =>{
             dispatch(Server_Error(error))
+        })
+    }
+}
+
+export const add_employee = (data,token) =>{
+    return dispatch =>{
+         const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        const payload = JSON.stringify(data)
+        axios.post('http://127.0.0.1:5000/employee/register',payload,yourConfig)
+        .then(response =>{    
+            console.log(response)
+        })
+        .catch(error =>{
+            dispatch(Set_Error(error))
         })
     }
 }
