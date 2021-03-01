@@ -112,3 +112,58 @@ export const add_employee = (data,token) =>{
         })
     }
 }
+
+export const fetch_tasks = (data) =>{
+    // console.log(data)
+    return{
+        type: actionTypes.GET_TASKS,
+        data
+    }
+}
+
+export const fetch_tasks_start = (token) =>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/Alltasks',yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+            dispatch(fetch_tasks(response.data))
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+export const fetch_leaves = (data) =>{
+    // console.log(data)
+    return{
+        type: actionTypes.GET_LEAVES,
+        data
+    }
+}
+
+export const fetch_leaves_start = (token) =>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/AllLeaves',yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+            dispatch(fetch_leaves(response.data))
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+

@@ -11,7 +11,7 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import GroupIcon from '@material-ui/icons/Group';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,15 +40,15 @@ const Budget = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              Employees
+              Profit
             </Typography>
             <Typography color="textPrimary" variant="h3">
-              1500
+              $1500
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <GroupIcon />
+              <MonetizationOnIcon />
             </Avatar>
           </Grid>
         </Grid>

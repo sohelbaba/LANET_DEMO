@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {add_employee,get_designations,fetch_employeedata_start} from 'src/store/action/Admin'
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
-
+import format from "date-fns/format"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,10 +25,8 @@ const Employeedesh = (props) => {
   
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
-  const [emp,setEmp] = React.useState(null)
   const [error,setError] = React.useState(null)
-
-  const employee = {
+  const newemployee = {
     username : '',
     password : '',
     role : '',
@@ -43,10 +41,16 @@ const Employeedesh = (props) => {
     props.OnFetchDesignation(props.token)
     props.OnFetchEmployeeData(props.token)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[emp])
+  },[])
+
+  const datehandlechange =(date) =>{
+    // console.log(format(date,"dd/MM/yyyy"))
+    newemployee.joiningdate = ''+format(date,"dd/MM/yyyy")
+  }
 
   const handlechange = (e) =>{ 
-    employee[e.target.name] = e.target.value
+    // console.log(e.target.name,e.target.value)
+    newemployee[e.target.name] = e.target.value
   }
 
   const onclose = (e) =>{setShow(false)}
@@ -58,12 +62,11 @@ const Employeedesh = (props) => {
     setShow(false)
     
     // auto generated password get
-    employee.password = e.target.password.value
+    newemployee.password = e.target.password.value
+  
+    console.log(newemployee)
     
-    setEmp(employee)
-    setError(null)
-
-    props.OnAddEmployee(employee,props.token)
+    props.OnAddEmployee(newemployee,props.token)
     
     
   }
@@ -88,6 +91,7 @@ const Employeedesh = (props) => {
     show={show} 
     submit={submit}
     error ={error}
+    datehandlechange={datehandlechange}
     handlecancle={onclose} 
     handlechange={handlechange} />
   }
@@ -95,17 +99,13 @@ const Employeedesh = (props) => {
   return (
     <>
     <Page className={classes.root} title="Employees">
-      
       <Container style={{paddingTop:'15px'}}>
       {modal}
-      <div style={{paddingTop:'15px',paddingBottom:'15px'}}>
+      <div>
           <Button variant="outlined" color="primary" onClick={handleClick}>Add Employee</Button>
+          <EmployeeList/>
       </div>
       </Container>
-      <Container style={{paddingTop:'10px'}}>
-        <EmployeeList/>
-      </Container>
-
     </Page>
     {showsnak}
     </>

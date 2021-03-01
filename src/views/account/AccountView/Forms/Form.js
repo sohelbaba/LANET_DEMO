@@ -79,9 +79,9 @@ const Form = (props) => {
 
   return (
     <>
-    <Page className={classes.root} title="Register">
+    <Page className={classes.root} title="Dashboard">
       <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
-        <Container maxWidth="sm">
+        <Container>
           <Formik initialValues={userdata}
             validationSchema={
               Yup.object().shape({
@@ -117,7 +117,7 @@ const Form = (props) => {
               <form onSubmit={handleSubmit} name="personadetails">
                 <TextField
                   error={Boolean(touched.firstName && errors.firstName)}
-                  fullWidth={false}
+                  // fullWidth={false}
                   helperText={touched.firstName && errors.firstName}
                   label="First name"
                   margin="dense"
@@ -126,7 +126,7 @@ const Form = (props) => {
                   onChange={handleChange}
                   value={values.firstName}
                   variant="outlined"
-                  style={{marginRight:'10px'}}
+                  style={{marginRight:'10px',width:'45%'}}
                 />
                 <TextField
                   error={Boolean(touched.lastName && errors.lastName)}
@@ -139,6 +139,7 @@ const Form = (props) => {
                   onChange={handleChange}
                   value={values.lastName}
                   variant="outlined"
+                  style={{width:'45%'}}
                 />
                 <TextField
                   error={Boolean(touched.email && errors.email)}
@@ -151,7 +152,7 @@ const Form = (props) => {
                   type="email"
                   value={values.email}
                   variant="outlined"
-                  style={{marginRight:'10px'}}
+                  style={{width:'45%',marginRight:'10px'}}
                 />
                 <TextField
                   error={Boolean(touched.contactno && errors.contactno)}
@@ -164,6 +165,7 @@ const Form = (props) => {
                   type="number"
                   value={values.contactno}
                   variant="outlined"
+                  style={{width:'45%'}}
                />
                 <TextField
                   error={Boolean(touched.gender && errors.gender)}
@@ -176,7 +178,7 @@ const Form = (props) => {
                   type="text"
                   value={values.gender}
                   variant="outlined"
-                  style={{marginRight:'10px'}}
+                  style={{width:'45%',marginRight:'10px'}}
                 />
                 <TextField
                   error={Boolean(touched.bloodgroup && errors.bloodgroup)}
@@ -189,18 +191,19 @@ const Form = (props) => {
                   type="text"
                   value={values.bloodgroup}
                   variant="outlined"
+                  style={{width:'45%'}}
                 />
                 <TextField
                   error={Boolean(touched.pancardno && errors.pancardno)}
                   helperText={touched.pancardno && errors.pancardno}
                   label="Pancard Number"
                   margin="dense"
-                  fullWidth
                   name="pancardno"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.pancardno}
                   variant="outlined"
+                  style={{width:'45%',marginRight:'10px'}}
                 />
                 <NumberFormat
                   customInput ={TextField}
@@ -209,16 +212,15 @@ const Form = (props) => {
                   helperText={touched.aadharcardno && errors.aadharcardno}
                   label="Aadharcard Number"
                   margin="dense"
-                  fullWidth
                   name="aadharcardno"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.aadharcardno}
                   variant="outlined"
+                  style={{width:'45%'}}
                 />
                 <TextField
                   margin="dense"
-                  fullWidth
                   name="dob"
                   label="Birth Date"
                   InputLabelProps={{ shrink: true }}
@@ -227,12 +229,12 @@ const Form = (props) => {
                   type="date"
                   value={values.dob}
                   variant="outlined"
+                  style={{width:'45%',marginRight:'10px'}}
                 />
                 <TextField
                   error={Boolean(touched.profile && errors.profile)}
                   helperText={touched.profile && errors.profile}
                   margin="dense"
-                  fullWidth
                   InputLabelProps={{ shrink: true }}
                   name="profile"
                   onBlur={handleBlur}
@@ -241,6 +243,7 @@ const Form = (props) => {
                   label="Profile"
                   value={values.profile}
                   variant="outlined"
+                  style={{width:'45%'}}
                 />                 
                 <Box my={2}>
                   <Button color="primary" size="small" type="submit" variant="contained" onClick={handleClick}>Save</Button>

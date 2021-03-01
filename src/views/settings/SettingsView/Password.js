@@ -9,15 +9,9 @@ import {
   CardHeader,
   Divider,
   TextField,
-  makeStyles
 } from '@material-ui/core';
 import {connect} from 'react-redux'
 import {change_password} from 'src/store/action/User'
-
-const useStyles = makeStyles(({
-  root: {}
-}));
-
 
 const Password = (props) => {
   const [show,setShow] = React.useState(false)

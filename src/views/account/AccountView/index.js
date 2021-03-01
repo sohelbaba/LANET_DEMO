@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container,Grid,makeStyles,CircularProgress} from '@material-ui/core';
+import {Container,Grid,makeStyles,Avatar,CircularProgress,Card,CardHeader,Typography,CardContent} from '@material-ui/core';
 import Page from 'src/components/Page';
 import ProfileDetails from './ProfileDetails';
 import {connect} from 'react-redux'
@@ -9,9 +9,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
     minHeight: '100%',
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3)
-  }
+    paddingBottom: theme.spacing(0),
+    paddingTop: theme.spacing(0),
+    marginTop:theme.spacing(0),
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  large: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+  },
 }));
 
 const Account = (props) => {
@@ -26,15 +34,30 @@ const Account = (props) => {
   if(props.userdetails !== null){
     show = <ProfileDetails/>
   }else{
-    show = <CircularProgress size={80} />
+    show = <div style={{margin:'180px 450px auto'}}><CircularProgress /></div>
   }
 
   return (
     <>
     <Page className={classes.root} title="Account">
+      <Container>
+        <Card>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="recipe"  src="/static/images/avatars/avatar_7.png" className={classes.large}/>
+            }
+            title={
+                <Typography style={{textTransform:'capitalize'}} color="textPrimary" gutterBottom variant="h3">
+                  Welcome, {props.userdetails !== null ? props.userdetails.Employee.username.split('.')[0] : null}
+                </Typography>
+            }
+            subheader={new Date().toUTCString()}
+          />
+        </Card>
+      </Container>
       <Container maxWidth="lg">
         <Grid container spacing={3}>
-          <Grid item lg={8} md={6} xs={12}>
+          <Grid item lg={12} md={12} xs={12}>
           {show}
           </Grid>
         </Grid>

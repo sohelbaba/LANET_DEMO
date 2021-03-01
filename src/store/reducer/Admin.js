@@ -4,12 +4,15 @@ const init_state = {
     employees : null,
     error : null,
     designation : null,
-    serverError : null
+    serverError : null,
+    Alltasks : null,
+    AllLeaves : null
 }
 
 const AdminReducer = (state = init_state,action) =>{
     
     switch (action.type) {
+        
         case actionTypes.FETCH_ALL_USER_DATA:
             return{
                 ...state,
@@ -34,6 +37,16 @@ const AdminReducer = (state = init_state,action) =>{
             return{
                 ...state,
                 error : action.error
+            }
+        case actionTypes.GET_TASKS:
+            return{
+                ...state,
+                Alltasks : action.data
+            }
+        case actionTypes.GET_LEAVES:
+            return{
+                ...state,
+                AllLeaves:action.data
             }
         default:
             return state;

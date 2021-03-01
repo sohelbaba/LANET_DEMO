@@ -68,8 +68,8 @@ const SalaryForm = (props) => {
   return (
     <>
       <Page className={classes.root} title="Register">
-      <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
-        <Container maxWidth="sm">
+      <Box display="flex" flexDirection="column" height="100%" justifyContent="left">
+        <Container>
           <Formik initialValues={salaryinfodata}
             validationSchema={
               Yup.object().shape({

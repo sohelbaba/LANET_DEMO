@@ -168,20 +168,6 @@ const NavBar = ({ onMobileClose, openMobile, displayname}) => {
   const items = getListItems(role)
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
-      <Box alignItems="center" display="flex" flexDirection="column" p={2}>
-        <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <Avatar className={classes.avatar} src={user.avatar}/>
-          </Grid>
-          <Grid item xs={8}>
-            <Typography color="textPrimary" variant="h5" style={{textTransform:'capitalize',margin:'12px auto'}}>
-              {user.jobTitle}
-            </Typography>
-            
-          </Grid>
-        </Grid>
-      </Box>
-      <Divider />
       <Box p={2}>
         <List>
           {items.map((item) => (<NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />))}

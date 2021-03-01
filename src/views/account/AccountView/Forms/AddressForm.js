@@ -63,9 +63,9 @@ const AddressForm = (props) => {
 
   return (
     <>
-     <Page className={classes.root} title="Register">
-      <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
-        <Container maxWidth="sm">
+     <Page className={classes.root} title="Dashboard">
+      <Box display="flex" flexDirection="row" height="100%" justifyContent="left">
+        <Container>
           <Formik
             initialValues={initaddressdetails}
             validationSchema={
@@ -91,6 +91,7 @@ const AddressForm = (props) => {
             {({errors,handleBlur,handleChange,handleSubmit,isSubmitting,touched,values}) => (
               <form onSubmit={handleSubmit}>
                 <TextField
+                  // style={{width:'40%'}}
                   fullWidth
                   error={Boolean(touched.city && errors.city)}
                   helperText={touched.city && errors.city}

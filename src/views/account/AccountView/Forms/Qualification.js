@@ -67,7 +67,7 @@ const QualificationForm = (props) => {
     <>
       <Page className={classes.root} title="Register" >
       <Box display="flex" flexDirection="column" height="100%" justifyContent="center">
-        <Container maxWidth="sm">
+        <Container>
           <Formik
             initialValues={userqualificationdata}
             validationSchema={

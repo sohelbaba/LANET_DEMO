@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,6 +11,14 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import {connect} from 'react-redux'
+
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+
 
 function generatePassword() {
     let length = 8,
@@ -28,7 +37,8 @@ function AddEmployeeModel({
   submit,
   designations,
   loginrole,
-  error
+  error,
+  datehandlechange
   }) {
   console.log(designations)
  
@@ -118,18 +128,26 @@ function AddEmployeeModel({
                     ))}
                   </Select>
               </FormControl>
-
-                <TextField
-                  margin="dense"
-                  fullWidth
-                  label="Joining Date"
-                  name="joiningdate"
-                  type="date"
-                  onChange={handlechange}
-                  InputLabelProps={{ shrink: true }}
-                  variant="standard"
-                  required
-                />
+              
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                      disableToolbar
+                      fullWidth
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      name="joiningdate"
+                      margin="normal"
+                      id="date-picker-inline"
+                      label="Joining Date"
+                      // value={selectedDate}
+                      onChange={datehandlechange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
 
           </DialogContent>
           <DialogActions>

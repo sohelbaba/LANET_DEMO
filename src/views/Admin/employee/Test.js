@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 const Test = (props) =>{
     const columns = ["Username", "Designation", "Status", "JoiningDate"];
-    // console.log(props.employees[0]['Joining Details'].length !== 0 ? props.employees['Joining Details'][0]['Join Date'] : '')
+    console.log(props.employees[0]['Joining Details'].length !== 0 ? props.employees['Joining Details'][0]['Join Date'] : '')
     const data = props.employees.map((row) =>(
         [
             row['username'],
@@ -16,8 +16,6 @@ const Test = (props) =>{
 
     const options = {
     filterType: 'checkbox',
-    rowsPerPageOptions : [5,10,15,25,50,100],
-    rowsPerPage : 5
     };
 
     return ( 

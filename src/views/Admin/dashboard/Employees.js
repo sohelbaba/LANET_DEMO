@@ -11,26 +11,27 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import DvrIcon from '@material-ui/icons/Dvr';
+import GroupIcon from '@material-ui/icons/Group';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.green[600],
+    backgroundColor: colors.lightBlue[600],
     height: 56,
     width: 56
   },
   differenceIcon: {
-    color: colors.green[900]
+    color: colors.lightBlue[900]
   },
   differenceValue: {
-    color: colors.green[900],
+    color: colors.lightBlue[900],
     marginRight: theme.spacing(1)
   }
 }));
 
-const Online = ({ className, ...rest }) => {
+const Employees = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -39,15 +40,15 @@ const Online = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="h6">
-              Projects
+              Employees
             </Typography>
             <Typography color="textPrimary" variant="h3">
-              112
+              500
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <DvrIcon />
+              <GroupIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -56,8 +57,8 @@ const Online = ({ className, ...rest }) => {
   );
 };
 
-Online.propTypes = {
+Employees.propTypes = {
   className: PropTypes.string
 };
 
-export default Online;
+export default Employees;

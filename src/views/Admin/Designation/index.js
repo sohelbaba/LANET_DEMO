@@ -10,7 +10,8 @@ import {
   Divider,
   TextField,
   Container,
-  makeStyles
+  makeStyles,
+  Grid
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 
@@ -63,50 +64,52 @@ const Designation = (props) => {
     <>
     <Page className={classes.root} title="Designations">
       <Container>
-        <form onSubmit={adddesignation}>
-          <Card>
-          <CardHeader title="Add Designation"/>
-          <Divider />
-          <CardContent>
-            <TextField
-              fullWidth
-              label="New Designation"
-              margin="normal"
-              required
-              name="desg"
-              onChange={(e) => setDesignation(e.target.value)}
-              type="text"
-              value={designation}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              label="Basic"
-              margin="normal"
-              name="basic"
-              required
-              type="number"
-              onChange={(e) => setBasic(+e.target.value)}
-              value={basic}
-              variant="outlined"
-            />
-          </CardContent>
-          <Divider />
-          <Box
-            display="flex"
-            justifyContent="flex-end"
-            p={2}
-          >
-            <Button
-              color="primary"
-              variant="contained"
-              type="submit"
-            >
-              Save
-            </Button>
-          </Box>
-        </Card>
-      </form>
+        <Grid xs={6}>
+            <form onSubmit={adddesignation}>
+              <Card>
+              <CardHeader title="Add Designation"/>
+              <Divider />
+              <CardContent>
+                <TextField
+                  fullWidth
+                  label="New Designation"
+                  margin="normal"
+                  required
+                  name="desg"
+                  onChange={(e) => setDesignation(e.target.value)}
+                  type="text"
+                  value={designation}
+                  variant="outlined"
+                />
+                <TextField
+                  fullWidth
+                  label="Basic"
+                  margin="normal"
+                  name="basic"
+                  required
+                  type="number"
+                  onChange={(e) => setBasic(+e.target.value)}
+                  value={basic}
+                  variant="outlined"
+                />
+              </CardContent>
+              <Divider />
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                p={2}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  type="submit"
+                >
+                  Save
+                </Button>
+              </Box>
+            </Card>
+          </form>
+        </Grid>
       </Container>
     </Page>
     {showsnak}

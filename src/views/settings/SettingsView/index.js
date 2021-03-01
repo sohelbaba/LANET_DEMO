@@ -3,10 +3,7 @@ import {Container,makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import AuthDetails from './AuthDetails';
-import ListItem from '@material-ui/core/ListItem';
 import Password from './Password';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
