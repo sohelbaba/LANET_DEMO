@@ -3,7 +3,11 @@ import * as actionTypes from '../action/actions'
 const init_state = {
     employee : null,
     error : null,
-    serverError : null
+    tasks : null,
+    leaves : null,
+    serverError : null,
+    salarydetails : null,
+
 }
 
 const UserReducer = (state = init_state,action) =>{
@@ -24,6 +28,22 @@ const UserReducer = (state = init_state,action) =>{
                 ...state,
                 serverError : action.error
             }
+        case actionTypes.FETCH_TASKS:
+            return{
+                ...state,
+                tasks : action.data
+            }
+        case actionTypes.FETCH_LEAVE:
+            return{
+                ...state,
+                leaves : action.data
+            }
+        case actionTypes.FETCH_EMPLOYEE_SALARY_DETAILS:
+        return{
+            ...state,
+            salarydetails:action.data
+        }
+
         default:
             return state;
     }

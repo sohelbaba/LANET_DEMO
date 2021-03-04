@@ -1,6 +1,8 @@
 import React from 'react';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import {get_designations} from 'src/store/action/Admin'
+
 import {
   Box,
   Button,
@@ -17,6 +19,7 @@ import Page from 'src/components/Page';
 
 import {connect} from 'react-redux'
 import {add_designation_start} from 'src/store/action/Admin'
+import DesList from './deslist'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,16 +35,25 @@ const Designation = (props) => {
   const [show,setShow] = React.useState(false)
   const [designation, setDesignation] = React.useState('')
   const [basic,setBasic] = React.useState(0.0)
+  const [call,setCall] = React.useState(false)
+
+  React.useEffect(()=>{
+    props.OnFetchDesignation(props.token)
+    setCall(false)
+    console.log('useEffect')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[call])
 
   const adddesignation = (e) =>{
     e.preventDefault()
     setShow(true)
-    console.log(props.token)
+    setCall(true)
+
     const data = {
         designation : designation,
         basic : basic
     }
-    console.log(data)
+    
     props.OnAddDesignation(data,props.token)
     setDesignation('')
     setBasic(0.0)
@@ -64,51 +76,58 @@ const Designation = (props) => {
     <>
     <Page className={classes.root} title="Designations">
       <Container>
-        <Grid xs={6}>
-            <form onSubmit={adddesignation}>
-              <Card>
-              <CardHeader title="Add Designation"/>
-              <Divider />
-              <CardContent>
-                <TextField
-                  fullWidth
-                  label="New Designation"
-                  margin="normal"
-                  required
-                  name="desg"
-                  onChange={(e) => setDesignation(e.target.value)}
-                  type="text"
-                  value={designation}
-                  variant="outlined"
-                />
-                <TextField
-                  fullWidth
-                  label="Basic"
-                  margin="normal"
-                  name="basic"
-                  required
-                  type="number"
-                  onChange={(e) => setBasic(+e.target.value)}
-                  value={basic}
-                  variant="outlined"
-                />
-              </CardContent>
-              <Divider />
-              <Box
-                display="flex"
-                justifyContent="flex-end"
-                p={2}
-              >
-                <Button
-                  color="primary"
-                  variant="contained"
-                  type="submit"
+        <Grid container>
+          <Grid item xs={4}>
+              <form onSubmit={adddesignation}>
+                <Card>
+                <CardHeader title="Add Designation"/>
+                <Divider />
+                <CardContent>
+                  <TextField
+                    fullWidth
+                    label="New Designation"
+                    margin="normal"
+                    required
+                    name="desg"
+                    onChange={(e) => setDesignation(e.target.value)}
+                    type="text"
+                    value={designation}
+                    variant="outlined"
+                    style={{marginRight:'10px'}}
+                  />
+                  <TextField
+                    fullWidth
+                    label="Basic"
+                    margin="normal"
+                    name="basic"
+                    required
+                    type="number"
+                    onChange={(e) => setBasic(+e.target.value)}
+                    value={basic}
+                    variant="outlined"
+                  />
+                </CardContent>
+                <Divider />
+                <Box
+                  display="flex"
+                  justifyContent="flex-end"
+                  p={2}
                 >
-                  Save
-                </Button>
-              </Box>
-            </Card>
-          </form>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    type="submit"
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Card>
+            </form>
+          </Grid>
+          <Grid xs={1}></Grid>
+          <Grid item xs={7}>
+            <DesList/>
+          </Grid>
         </Grid>
       </Container>
     </Page>
@@ -125,7 +144,8 @@ const maptostate = state =>{
 
 const maptodispatch = dispatch =>{
   return {
-    OnAddDesignation : (data,token) => dispatch(add_designation_start(data,token))
+    OnAddDesignation : (data,token) => dispatch(add_designation_start(data,token)),
+    OnFetchDesignation : (token) => dispatch(get_designations(token))
   }
 }
 export default connect(maptostate,maptodispatch)(Designation);

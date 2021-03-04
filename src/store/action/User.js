@@ -163,13 +163,14 @@ export const apply_leave = (data,token) =>{
         }}
         const payload = JSON.stringify(data)
         axios.post('http://127.0.0.1:5000/employee/leave',payload,yourConfig)
-        .then(response =>{})
+        .then(response =>{
+            console.log(response.data)
+        })
         .catch(error =>{
-            dispatch(Server_Error(error))            
+            // dispatch(Server_Error(error))            
         })
     }
 }
-
 
 export const change_password = (data,token) =>{
     return dispatch =>{
@@ -183,6 +184,89 @@ export const change_password = (data,token) =>{
         .then(response =>{})
         .catch(error =>{
             dispatch(Server_Error(error))            
+        })
+    }
+}
+
+const fetch_tasks = (data) =>{
+    return{
+        type : actionTypes.FETCH_TASKS,
+        data
+    }
+}
+
+export const fetch_tasks_start = (token) =>{
+
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/tasks',yourConfig)
+        .then(response =>{   
+            // console.log(response.data)
+            dispatch(fetch_tasks(response.data))  
+        })
+        .catch(error =>{
+            console.log(error)
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+const fetch_leaves = (data) =>{
+    return{
+        type : actionTypes.FETCH_LEAVE,
+        data
+    }
+}
+
+export const fetch_leave_start = (token) =>{
+
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/applyleaves',yourConfig)
+        .then(response =>{   
+            // console.log(response.data)
+            dispatch(fetch_leaves(response.data))  
+        })
+        .catch(error =>{
+            console.log(error)
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+const fetch_employee_salary= (data) =>{
+    return{
+        type : actionTypes.FETCH_EMPLOYEE_SALARY_DETAILS,
+        data
+    }
+}
+
+export const fetch_employee_salardetails_start = (token) =>{
+
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/salarydetails',yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+            dispatch(fetch_employee_salary(response.data))  
+        })
+        .catch(error =>{
+            dispatch(Server_Error(error))
         })
     }
 }

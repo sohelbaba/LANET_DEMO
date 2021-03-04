@@ -2,9 +2,7 @@ import React from 'react'
 import LeaveList from './LeaveList'
 import Page from 'src/components/Page';
 import {makeStyles,Container} from '@material-ui/core';
-import {fetch_leaves_start} from 'src/store/action/Admin'
-import {connect} from 'react-redux'
-import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,14 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LeaveIndex = (props) =>  {
-    const classes = useStyles()
-    console.log(props.token)
-
-    React.useEffect(()=>{
-      props.OnLeavesGet(props.token)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-    
+    const classes = useStyles()    
     return (
     <Page className={classes.root} title="Leaves">
         <Container>
@@ -33,15 +24,11 @@ const LeaveIndex = (props) =>  {
     )
 }
 
-const maptostate = state=>{
-  console.log(state.admin)
-  return {
-    token: state.auth.token
-  }
-}
-const maptodispatch = (dispatch) =>{
-  return{
-    OnLeavesGet : (token) => dispatch(fetch_leaves_start(token))
-  }
-}
-export default connect(maptostate,maptodispatch)(LeaveIndex)
+// const maptostate = state=>{
+//   console.log(state.admin)
+//   return {
+//     token: state.auth.token
+//   }
+// }
+
+export default LeaveIndex

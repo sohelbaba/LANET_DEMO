@@ -43,7 +43,7 @@ const Dashboard = (props) => {
     return (
        <Page className={classes.root} title="Dashboard">
            <Container style={{marginBottom:'10px'}}>
-              <Grid container justify="left" direction="row" alignItems="left">
+              <Grid container direction="row" alignItems="flex-start">
                 <Typography color="textPrimary" gutterBottom variant="h1">
                   Welcome Admin!
                 </Typography>

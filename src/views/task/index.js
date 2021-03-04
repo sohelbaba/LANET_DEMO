@@ -4,9 +4,10 @@ import Page from 'src/components/Page';
 import TaskModel from './TaskModel'
 import TaskTable from './TaskTable'
 import {connect} from 'react-redux'
-import {fetch_userdata_start,add_task} from 'src/store/action/User'
+import {fetch_tasks_start,add_task} from 'src/store/action/User'
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
+import CircularProgress  from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,13 +26,16 @@ const Dashboard = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
-  const newtask = {technology : '',projectname : '',hour :'',desc: ''}
+  const [taskdata,setTaskData] = React.useState({technology : '',projectname : '',hour :'',desc: ''})
+  const [call,setCall] = React.useState(false)
+
   const handleClick = () =>{setShow(true)}
   
   React.useEffect(()=>{
-    props.OnFetchUserData(props.token)
+    props.OnFetchTaskData(props.token)
+    setCall(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[newtask])
+  },[call])
 
   const onclose = (e) =>{
     setShow(false)
@@ -41,7 +45,9 @@ const Dashboard = (props) => {
     e.preventDefault()
     setOpen(true)
     setShow(false)
-    props.onTaskAdd(newtask,props.token)
+    setCall(true)
+
+    props.onTaskAdd(taskdata,props.token)
   }
 
   let showsnak = null
@@ -58,7 +64,13 @@ const Dashboard = (props) => {
       )
   }
 
-  const handlechange = (e) =>{ newtask[e.target.name] = e.target.value}
+  const handlechange = (e) =>{ 
+    const {name,value}= e.target
+    setTaskData(prevstate =>({
+        ...prevstate,
+        [name] :value 
+      }))
+  }
 
   let modal = null
   if(show){
@@ -78,7 +90,7 @@ const Dashboard = (props) => {
         <div style={{paddingTop:'15px',paddingBottom:'15px'}}>
           <Button variant="outlined" color="primary" onClick={handleClick}>Add Task</Button>
         </div>
-        <TaskTable/>
+        {props.tasks !== null ? <TaskTable/> : <div style={{margin:'180px 450px auto'}}><CircularProgress /></div>}
       </Container>
     </Page>
     {showsnak}
@@ -89,12 +101,13 @@ const Dashboard = (props) => {
 const maptostate = state =>{
   return{
     token : state.auth.token,
+    tasks : state.user.tasks
   }
 }
 
 const maptodispatch = dispatch =>{
   return{
-    OnFetchUserData : (token) => dispatch(fetch_userdata_start(token)),
+    OnFetchTaskData : (token) => dispatch(fetch_tasks_start(token)),
     onTaskAdd : (data,token) => dispatch(add_task(data,token))
   }
 }

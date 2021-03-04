@@ -20,16 +20,6 @@ import {
 } from '@material-ui/pickers';
 
 
-function generatePassword() {
-    let length = 8,
-        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-        retVal = "";
-    for (let i = 0, n = charset.length; i < length; ++i) {
-        retVal += charset.charAt(Math.floor(Math.random() * n));
-    }
-    return retVal;
-}
-
 function AddEmployeeModel({
   handlechange,
   handlecancle,
@@ -38,10 +28,11 @@ function AddEmployeeModel({
   designations,
   loginrole,
   error,
+  post,
   datehandlechange
   }) {
-  console.log(designations)
- 
+
+  console.log(post)
   const Adminrole =[
     {'role' : 'Hr'},
     {'role' : 'Employee'}   
@@ -78,7 +69,7 @@ function AddEmployeeModel({
                   name="password"
                   InputLabelProps={{ shrink: true }}
                   disabled
-                  value={generatePassword()}
+                  value={post.password}
                   onChange={handlechange}
                   variant="outlined"
                   required
@@ -134,13 +125,14 @@ function AddEmployeeModel({
                     <KeyboardDatePicker
                       disableToolbar
                       fullWidth
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
+                      InputLabelProps={{ shrink: true }}
                       name="joiningdate"
                       margin="normal"
                       id="date-picker-inline"
                       label="Joining Date"
-                      // value={selectedDate}
+                      value={post.joiningdate}
                       onChange={datehandlechange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

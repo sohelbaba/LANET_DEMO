@@ -1,15 +1,16 @@
 import React from 'react';
-import { Container,Card,Grid,Button,Divider,Typography,makeStyles} from '@material-ui/core';
+import { Container,Card,Grid,Button,Typography,makeStyles} from '@material-ui/core';
 import Page from 'src/components/Page';
 import LeaveModel from './LeaveModel'
 import {connect} from 'react-redux'
-import {apply_leave,fetch_userdata_start} from 'src/store/action/User'
+import {apply_leave,fetch_leave_start} from 'src/store/action/User'
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import LeaveTable from './leaveTable';
 import Chart from 'react-apexcharts'
 import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import ListRoundedIcon from '@material-ui/icons/ListRounded';
+import CircularProgress  from '@material-ui/core/CircularProgress';
 
 // import MyChart from 'src/mixins/chartjs'
 
@@ -43,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Leaveboard = (props) =>{
-
   const options = {
         chart: { height: 200, type: 'radialBar'},
         
@@ -56,7 +56,9 @@ const Leaveboard = (props) =>{
                       show: true,
                       fontSize:'13px',
                       label: 'Available',
-                      formatter: function (w) {return props.Leavevalue}
+                      formatter: function (w) {
+                        return props.value
+                      }
                     },
                     style: {
                       colors: ['#F44336', '#E91E63']
@@ -64,10 +66,11 @@ const Leaveboard = (props) =>{
                   }
                 }
               },
-            // labels: ['Total', 'Consumed'],
+            labels: ['Total', 'Consumed'],
   }
-  const series = [100,0]
+  const series = [100,((props.Leavevalue - props.value) * Math.floor(100/props.Leavevalue))]
   const classes = useStyles();
+  
   return (
     <Grid item lg={2} sm={6} xl={3} xs={12}>
       <Card className={classes.leaveboard}>
@@ -84,21 +87,48 @@ const Dashboard = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
-  const [data,setData] = React.useState(null)
-  const leavedata = {ltype : '',startdate : '',enddate :'',desc : ''}
+  const [call,setCall] = React.useState(false)
+  const [leavedata,setLeaveData] = React.useState({
+    ltype : '',
+    startdate : new Date(),
+    enddate :new Date(),
+    desc : ''
+  })
 
   React.useEffect(() =>{
-    props.OnFetchData(props.token)
+    props.OnFetchLeaveData(props.token)
+    setCall(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
-
-  
+  },[call])
 
   const handleClickOpen = () => setOpen(true)
-  const onChangeHandler = (e) => leavedata[e.target.name] = e.target.value
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+     setLeaveData(prevstate => ({ 
+        ...prevstate,
+        [name] : value
+      }))
+    
+      // leavedata[e.target.name] = e.target.value
+  }
   
+  const enddatehandlechange = (date) =>{
+    setLeaveData(prevstate => (
+      { ...prevstate,
+        enddate : date 
+      }))
+  }
+
+  const startdatehandlechange = (date) =>{
+    setLeaveData(prevstate => (
+      { ...prevstate,
+        startdate : date
+      }))
+  }
+
   const handleClose = () =>{
-    // leavedata = {ltype : '',startdate : '',enddate :'',desc : ''}
+    setLeaveData({ltype : '',startdate : new Date(),enddate :new Date(),desc : ''})
     setOpen(false)
   }
 
@@ -106,9 +136,10 @@ const Dashboard = (props) => {
     e.preventDefault();
     setShow(true)
     setOpen(false)
-    //api call
-    setData(leavedata)
-    props.OnApplyLeave(data,props.token)
+    setCall(true)
+    
+    props.OnApplyLeave(leavedata,props.token)
+    setLeaveData({ltype : '',startdate : new Date(),enddate :new Date(),desc : ''})
   }
 
   let showsnak = null
@@ -124,12 +155,9 @@ const Dashboard = (props) => {
       )
   }
 
-  const leave = {
-    PL : 12,
-    CL : 4,
-    SL : 4,
-    LWP : 5
-  }
+  const leave = {PL : 12,CL : 4,SL : 4,LWP : 5}
+
+
   return (
     <>
     <Page className={classes.root} title="Leave">
@@ -162,20 +190,20 @@ const Dashboard = (props) => {
         </Grid>
       </Container>
       <Container style={{paddingTop:'15px'}}>
-      <LeaveModel 
-        open={open} 
-        data ={leavedata}
-        submit={submit}
-        handleClose={handleClose}
-        // handleApply ={handleApply}
-        onChangeHandler ={onChangeHandler}
-      />
+        <LeaveModel 
+          open={open} 
+          post ={leavedata}
+          submit={submit}
+          handleClose={handleClose}
+          enddatehandlechange = {enddatehandlechange}
+          startdatehandlechange = {startdatehandlechange}
+          onChangeHandler ={onChangeHandler}
+        />
            
       </Container>
       <Container style={{paddingTop:'10px'}}>
-        <LeaveTable/>
+        {props.applyleaves !== null ? <LeaveTable/> : <div style={{margin:'180px 450px auto'}}><CircularProgress /></div>}
       </Container>
-
     </Page>
     {showsnak}
     </>
@@ -183,8 +211,10 @@ const Dashboard = (props) => {
 };
 
 const maptostate = state =>{
+  // console.log(state.user.employee.Employee['Annual Leaves'][0])
   return {
     token : state.auth.token,
+    applyleaves : state.user.leaves,
     leaves : state.user.employee.Employee['Annual Leaves'][0]
   }
 }
@@ -192,7 +222,7 @@ const maptostate = state =>{
 const maptodispatch = dispatch =>{
   return{
     OnApplyLeave : (data,token) => dispatch(apply_leave(data,token)),
-    OnFetchData : (token) => dispatch(fetch_userdata_start(token))
+    OnFetchLeaveData : (token) => dispatch(fetch_leave_start(token))
   }
 }
 export default connect(maptostate,maptodispatch)(Dashboard);

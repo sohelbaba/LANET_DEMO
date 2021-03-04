@@ -6,7 +6,8 @@ const init_state = {
     designation : null,
     serverError : null,
     Alltasks : null,
-    AllLeaves : null
+    AllLeaves : null,
+    salarydetails : null,
 }
 
 const AdminReducer = (state = init_state,action) =>{
@@ -47,6 +48,11 @@ const AdminReducer = (state = init_state,action) =>{
             return{
                 ...state,
                 AllLeaves:action.data
+            }
+        case actionTypes.FETCH_ALL_SALARY_DETAILS:
+            return{
+                ...state,
+                salarydetails : action.data
             }
         default:
             return state;

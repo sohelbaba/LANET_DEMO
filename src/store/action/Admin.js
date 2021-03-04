@@ -167,3 +167,86 @@ export const fetch_leaves_start = (token) =>{
     }
 }
 
+export const approve_leave = (id,data,token) =>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        const payload = JSON.stringify(data)
+        axios.put('http://127.0.0.1:5000/leave/'+ id,payload,yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+export const reject_leave = (id,data,token)=>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        const payload = JSON.stringify(data)
+        axios.put('http://127.0.0.1:5000/leave/'+ id,payload,yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+export const salaryGenerate = (data,token) =>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        const payload = JSON.stringify(data)
+        axios.post('http://127.0.0.1:5000/employee/salarygenerate',payload,yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}
+
+export const fetch_all_salary = (data) =>{
+    // console.log(data)
+    return{
+        type: actionTypes.FETCH_ALL_SALARY_DETAILS,
+        data
+    }
+}
+
+export const fetch_all_salary_start = (token) =>{
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/salarydetails',yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+            dispatch(fetch_all_salary(response.data))
+        })
+        .catch(error =>{
+            // dispatch(Server_Error(error))
+        })
+    }
+}

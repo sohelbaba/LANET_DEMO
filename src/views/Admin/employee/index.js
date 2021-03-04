@@ -9,6 +9,17 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import format from "date-fns/format"
 
+
+function generatePassword() {
+    let length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -26,31 +37,42 @@ const Employeedesh = (props) => {
   const [open, setOpen] = React.useState(false);
   const [show,setShow] = React.useState(false)
   const [error,setError] = React.useState(null)
-  const newemployee = {
+  const [call,setCall] = React.useState(false)
+  const [employee,setEmployee] = React.useState({
     username : '',
-    password : '',
+    password : generatePassword(),
     role : '',
     email: '',
     designation :'',
-    joiningdate: ''
-  }
-  
+    joiningdate: new Date()
+  })
+
   const handleClick = () =>{setShow(true)}
 
   React.useEffect(()=>{
+    setCall(false)
     props.OnFetchDesignation(props.token)
     props.OnFetchEmployeeData(props.token)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  },[call])
 
   const datehandlechange =(date) =>{
-    // console.log(format(date,"dd/MM/yyyy"))
-    newemployee.joiningdate = ''+format(date,"dd/MM/yyyy")
+    
+    setEmployee(prevstate =>({
+      ...prevstate,
+      joiningdate : date
+    }))
+    
   }
 
   const handlechange = (e) =>{ 
-    // console.log(e.target.name,e.target.value)
-    newemployee[e.target.name] = e.target.value
+    
+    const {name,value} = e.target
+    setEmployee(prevstate =>({
+      ...prevstate,
+      [name] : value
+    }))
+  
   }
 
   const onclose = (e) =>{setShow(false)}
@@ -60,14 +82,19 @@ const Employeedesh = (props) => {
     e.preventDefault()
     setOpen(true)
     setShow(false)
-    
-    // auto generated password get
-    newemployee.password = e.target.password.value
   
-    console.log(newemployee)
-    
-    props.OnAddEmployee(newemployee,props.token)
-    
+    props.OnAddEmployee(employee,props.token)
+    setCall(true)
+
+    //remove values after add 
+    setEmployee({
+      username : '',
+      password : generatePassword(),
+      role : '',
+      email: '',
+      designation :'',
+      joiningdate: new Date()
+    })
     
   }
 
@@ -91,6 +118,7 @@ const Employeedesh = (props) => {
     show={show} 
     submit={submit}
     error ={error}
+    post={employee}
     datehandlechange={datehandlechange}
     handlecancle={onclose} 
     handlechange={handlechange} />

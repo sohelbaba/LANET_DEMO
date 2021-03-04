@@ -1,6 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import React from 'react'
 import {connect} from 'react-redux'
+import format from "date-fns/format"
 
 const Test = (props) =>{
     const columns = ["Username", "Designation", "Status", "JoiningDate"];
@@ -10,7 +11,7 @@ const Test = (props) =>{
             row['username'],
             row['role'],
             row['isActive'] ? 'Active' : 'DeActive',
-            row['Joining Details'].length !== 0 ? row['Joining Details'][0]['Join Date'] : ''
+            row['Joining Details'].length !== 0 ? format(new Date(row['Joining Details'][0]['Join Date']),"EEE, dd MMM yyyy") : ''
         ]
     )) ;
 
@@ -30,7 +31,7 @@ const Test = (props) =>{
 }
 
 const maptostate = state =>{
-  console.log(state.admin.employees.Employees)
+  // console.log(state.admin.employees.Employees)
   return{
     // token : state.auth.token,
     employees : state.admin.employees.Employees

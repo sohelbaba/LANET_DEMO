@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {connect} from 'react-redux'
 import EditModel from './EditModal'
+import format from "date-fns/format"
 
 const useStyles = makeStyles({
   table: {
@@ -26,7 +27,7 @@ function Customrow(props){
   return(
     <>
       <TableRow key={props.row.id}>
-      <TableCell >{props.row.DateTime.split(' ')[0]}</TableCell>
+      <TableCell >{''+format(new Date(props.row.DateTime),"EEE, dd MMM yyyy")}</TableCell>
       <TableCell >{props.row.Technology}</TableCell>
       <TableCell >{props.row.ProjectName}</TableCell>
       <TableCell >{props.row.hour}</TableCell>
@@ -82,9 +83,10 @@ function TaskTable(props) {
 }
 
 const maptostate = state =>{
+  // console.log(state.user)
   return{
     token : state.auth.token,
-    tasks : state.user.employee.Employee.Task
+    tasks : state.user.tasks.Tasks
   }
 }
 

@@ -1,16 +1,23 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
-import AccountView from 'src/views/account/AccountView';
+
 import CustomerListView from 'src/views/customer/CustomerListView';
 import DashboardView from 'src/views/reports/DashboardView';
+import SettingsView from 'src/views/settings/SettingsView';
 import LoginView from 'src/views/auth/LoginView';
 import ServerError from 'src/views/errors/ServerError'
 import NotFoundView from 'src/views/errors/NotFoundView';
+
+import ProductListView from 'src/views/product/ProductListView';
+
+
+//employe components
+import AccountView from 'src/views/account/AccountView';
 import LeaveView from 'src/views/leave';
 import TaskView from 'src/views/task';
-import ProductListView from 'src/views/product/ProductListView';
-import SettingsView from 'src/views/settings/SettingsView';
+import SalaryView from 'src/views/salary'
+import HistoryView from 'src/views/history'
 
 // admin components
 import AdminDashBoardView from 'src/views/Admin/dashboard'
@@ -18,6 +25,7 @@ import EmployeesView from 'src/views/Admin/employee'
 import DesignationView from 'src/views/Admin/Designation'
 import TaskListView from 'src/views/Admin/task'
 import LeaveListView from 'src/views/Admin/leave'
+import SalaryListView from 'src/views/Admin/salary'
 
 const routes  = (isLoggedIn,role) => [
   {
@@ -27,6 +35,8 @@ const routes  = (isLoggedIn,role) => [
       { path: 'dashboard', element: role === 'Employee' ? <AccountView /> : <Navigate to="/404" /> },
       { path: 'task', element: role === 'Employee' ? <TaskView /> : <Navigate to="/404" /> },
       { path: 'leave', element: role === 'Employee' ? <LeaveView /> : <Navigate to="/404"/> },
+      { path: 'salary', element: role === 'Employee' ? <SalaryView /> : <Navigate to="/404"/> },
+      { path: 'history', element: role === 'Employee' ? <HistoryView /> : <Navigate to="/404"/> },
       { path: 'changepassword', element: role === 'Employee' ? <SettingsView /> : <Navigate to="/404"/> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
@@ -40,7 +50,7 @@ const routes  = (isLoggedIn,role) => [
       { path: 'designation', element: role === 'Admin' ? <DesignationView /> : <Navigate to="/404" /> },
       { path: 'task', element: role === 'Admin' ? <TaskListView /> : <Navigate to="/404" />},
       { path: 'leave', element: role === 'Admin' ? <LeaveListView /> : <Navigate to="/404" />},
-      { path: 'salary', element: <SettingsView /> },
+      { path: 'salary', element: role === 'Admin' ? <SalaryListView/> : <Navigate to="/404" /> },
       { path: 'changepassword', element: <SettingsView /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]

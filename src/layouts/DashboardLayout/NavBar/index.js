@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Avatar,
-  Typography,
   Box,
-  Grid,
-  Divider,
   Drawer,
   Hidden,
   List,
@@ -15,9 +11,9 @@ import {
   BarChart as BarChartIcon,
   Settings as SettingsIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
   Users as UsersIcon
 } from 'react-feather';
+import ListRoundedIcon from '@material-ui/icons/ListRounded';
 import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import NavItem from './NavItem';
@@ -116,10 +112,20 @@ const getListItems = (role) =>{
         },
         {
           href: '/employee/leave',
-          icon: UserIcon,
+          icon: TransferWithinAStationIcon,
           title: 'Leave Desk'
         },
-         {
+        {
+          href: '/employee/salary',
+          icon: AccountBalanceWalletIcon,
+          title: 'Salary Desk'
+        },
+        {
+          href: '/employee/history',
+          icon: ListRoundedIcon,
+          title: 'History Desk'
+        },
+        {
           href: '/employee/changepassword',
           icon: SettingsIcon,
           title: 'Change Password'

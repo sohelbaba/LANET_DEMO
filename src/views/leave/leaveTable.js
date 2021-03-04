@@ -11,7 +11,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {connect} from 'react-redux'
-
+import format from "date-fns/format"
+import TablePagination from '@material-ui/core/TablePagination';
 
 const useStyles = makeStyles({
   table: {
@@ -21,14 +22,15 @@ const useStyles = makeStyles({
 
 
 function Customrow(props){
-  
+  console.log(props.row)
   const [show,setShow] = React.useState(false)
   return(
     <>
-      <TableRow key={props.row['Apply Date']}>
-      <TableCell >{props.row['Apply Date'].split('.')[0].split(' ')[0]}</TableCell>
-      <TableCell >{props.row['Start Date']}</TableCell>
-      <TableCell >{props.row['End Date']}</TableCell>
+      <TableRow key={props.row['desc']}>
+      <TableCell >{''+format(new Date(props.row['Apply Date']),"EEE, dd MMM yyyy")}</TableCell>
+      <TableCell>{props.row.Type}</TableCell>
+      <TableCell >{''+format(new Date(props.row['Start Date']),"EEE, dd MMM yyyy")}</TableCell>
+      <TableCell >{''+format(new Date(props.row['End Date']),"EEE, dd MMM yyyy")}</TableCell>
       <TableCell >
           {props.row['Status'] === 'Pending' || props.row['Status'] === 'Cancle'
             ? <span style={{color:'red'}}> {props.row['Status']}</span> 
@@ -56,8 +58,21 @@ function Customrow(props){
 
 function LeaveTable(props) {
   const classes = useStyles();
-  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   let rows = [...props.leaves].reverse()
+
+
   return (
     <>
     <TableContainer component={Paper}>
@@ -65,6 +80,7 @@ function LeaveTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Apply Date</TableCell>
+            <TableCell>Type</TableCell>
             <TableCell >From</TableCell>
             <TableCell >To</TableCell>
             <TableCell >Status</TableCell>
@@ -72,21 +88,30 @@ function LeaveTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows !== null ? rows.map((row) => (
-            <Customrow row={row} key={row.id}/>
+          {rows !== null ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+            <Customrow row={row} key={row.desc}/>
           )) : null}
         </TableBody>
       </Table>
+       <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
     </TableContainer>
     </>
   );
 }
 
 const maptostate = state =>{
-  
+  console.log(state.user)
   return{
     // token : state.auth.token,
-    leaves : state.user.employee.Employee['Leave Details']
+    leaves : state.user.leaves.Leaves
   }
 }
 

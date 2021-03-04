@@ -4,6 +4,7 @@ import Page from 'src/components/Page';
 import ProfileDetails from './ProfileDetails';
 import {connect} from 'react-redux'
 import {fetch_userdata_start} from 'src/store/action/User'
+import format from "date-fns/format"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +52,7 @@ const Account = (props) => {
                   Welcome, {props.userdetails !== null ? props.userdetails.Employee.username.split('.')[0] : null}
                 </Typography>
             }
-            subheader={new Date().toUTCString()}
+            subheader={''+format(new Date(),"EEE, dd MMM yyyy")}
           />
         </Card>
       </Container>

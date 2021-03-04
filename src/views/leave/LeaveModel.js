@@ -1,4 +1,5 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,15 +9,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-
-
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function LeaveModel(props) {
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
 
+
+export default function LeaveModel(props) {
   return (
-    <div>
-      <Dialog open={props.open} aria-labelledby="form-dialog-title">
+    <>
+      <Dialog open={props.open} aria-labelledby="form-dialog-title" fullWidth  maxWidth="sm">
         <DialogTitle id="form-dialog-title">Apply For Leave</DialogTitle>
         <form onSubmit={props.submit}>
           <DialogContent>
@@ -28,7 +34,6 @@ export default function LeaveModel(props) {
                       id="demo-simple-select-outlined"
                       onChange={props.onChangeHandler}
                       label="LeaveType"
-                      autoFocus
                       required
                   >
                       <MenuItem value="none"><em>Select Leave Type</em></MenuItem>
@@ -38,30 +43,47 @@ export default function LeaveModel(props) {
                       <MenuItem value={'LWP'}>LWP</MenuItem>
                   </Select>
               </FormControl>
-              <TextField
-                  margin="dense"
-                  fullWidth
-                  label="Start Date"
-                  InputLabelProps={{ shrink: true }}
-                  name="startdate"
-                  onChange={props.onChangeHandler}
-                  type="date"
-                  required
-                  variant="outlined"
-                  style={{marginTop:'10px'}}
-              />
-              <TextField
-                  margin="dense"
-                  fullWidth
-                  required
-                  label="End Date"
-                  InputLabelProps={{ shrink: true }}
-                  name="enddate"
-                  onChange={props.onChangeHandler}
-                  type="date"
-                  placeholder="End Date"
-                  variant="outlined"
-              />
+              
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                      disableToolbar
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="dialog"
+                      format="dd/MM/yyyy"
+                      name="startdate"
+                      margin="normal"
+                      label="Start Date"
+                      value={props.post.startdate}
+                      onChange={props.startdatehandlechange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                      disableToolbar
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      variant="dialog"
+                      format="dd/MM/yyyy"
+                      name="enddate"
+                      margin="normal"
+                      label="End Date"
+                      value={props.post.enddate}
+                      onChange={props.enddatehandlechange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+
               <TextField
                   margin="dense"
                   id="name"
@@ -71,6 +93,7 @@ export default function LeaveModel(props) {
                   rows={5}
                   onChange={props.onChangeHandler}
                   variant="outlined"
+                  value={props.post.desc}
                   label="Description"
                   fullWidth
                   autoFocus = {false}
@@ -87,7 +110,7 @@ export default function LeaveModel(props) {
           </DialogActions>
         </form>
       </Dialog>
-    </div>
+    </>
   );
 }
 
