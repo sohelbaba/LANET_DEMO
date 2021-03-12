@@ -270,3 +270,32 @@ export const fetch_employee_salardetails_start = (token) =>{
         })
     }
 }
+
+
+const fetch_employee_history= (data) =>{
+    return{
+        type : actionTypes.FETCH_EMPLOYEE_GRADE_HISTORY,
+        data
+    }
+}
+
+export const fetch_employee_history_start = (token) =>{
+
+    return dispatch =>{
+        const yourConfig = {
+            headers: {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json',
+            }
+        }
+        axios.get('http://127.0.0.1:5000/employee/gradeshistory',yourConfig)
+        .then(response =>{    
+            console.log(response.data)
+            dispatch(fetch_employee_history(response.data))  
+        })
+        .catch(error =>{
+            dispatch(Server_Error(error))
+        })
+    }
+}
+

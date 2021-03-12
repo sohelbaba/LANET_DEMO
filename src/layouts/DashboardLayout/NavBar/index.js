@@ -1,182 +1,235 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Drawer,
   Hidden,
   List,
-  makeStyles
-} from '@material-ui/core';
+  makeStyles,
+  Divider,
+} from "@material-ui/core";
 import {
   BarChart as BarChartIcon,
   Settings as SettingsIcon,
   User as UserIcon,
-  Users as UsersIcon
-} from 'react-feather';
-import ListRoundedIcon from '@material-ui/icons/ListRounded';
-import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
-import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
-import NavItem from './NavItem';
-import HowToRegIcon from '@material-ui/icons/HowToReg';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import {connect} from 'react-redux'
-import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStation';
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+  Users as UsersIcon,
+} from "react-feather";
+import ListRoundedIcon from "@material-ui/icons/ListRounded";
+import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
+import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
+import NavItem from "./NavItem";
+import HowToRegIcon from "@material-ui/icons/HowToReg";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import { connect } from "react-redux";
+import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
-const getListItems = (role) =>{
+const getListItems = (role) => {
   switch (role) {
-    case 'Hr':
-      return ([
-          {
-            href: '/hr/dashboard',
-            icon: BarChartIcon,
-            title: 'Dashboard'
-          },
-          {
-            href: '/hr/attendance',
-            icon: UsersIcon,
-            title: 'Manage Attendance'
-          },
-          {
-            href: '/hr/task',
-            icon: AssignmentTurnedInOutlinedIcon,
-            title: 'Manage Task'
-          },
-          {
-            href: '/hr/leave',
-            icon: UserIcon,
-            title: 'Manage Leave'
-          },
-          {
-            href: '/hr/salary',
-            icon: AssignmentOutlinedIcon,
-            title: 'Manage Salary'
-          },
-          {
-            href: '/admin/settings',
-            icon: SettingsIcon,
-            title: 'Settings'
-          }
-        ])
-
-    case 'Admin':
-      return ([
-            {
-              href: '/admin/dashboard',
-              icon: BarChartIcon,
-              title: 'Dashboard'
-            },
-            {
-              href: '/admin/employees',
-              icon: UsersIcon,
-              title: 'Manage Employees'
-            },
-            {
-              href: '/admin/designation',
-              icon: HowToRegIcon,
-              title: 'Manage Designations'
-            },
-            {
-              href: '/admin/task',
-              icon: AssignmentIcon,
-              title: 'Manage Task'
-            },
-            {
-              href: '/admin/leave',
-              icon: TransferWithinAStationIcon,
-              title: 'Manage Leave'
-            },
-            {
-              href: '/admin/salary',
-              icon: AccountBalanceWalletIcon,
-              title: 'Manage Salary'
-            },
-            {
-              href: '/admin/changepassword',
-              icon: SettingsIcon,
-              title: 'Change Password'
-            }
-          ])
-
-    case 'Employee':
-      return ([
+    case "Hr":
+      return [
         {
-          href: '/employee/dashboard',
+          href: "/hr/dashboard",
           icon: BarChartIcon,
-          title: 'Dashboard'
+          title: "Dashboard",
         },
         {
-          href: '/employee/task',
-          icon: AssignmentTurnedInOutlinedIcon,
-          title: 'Task Desk'
+          href: "/hr/profile",
+          icon: AccountBoxIcon,
+          title: "Profile",
         },
         {
-          href: '/employee/leave',
+          href: "/hr/employees",
+          icon: UsersIcon,
+          title: "Manage Employees",
+        },
+        {
+          href: "/hr/task",
+          icon: AssignmentIcon,
+          title: "Manage Task",
+        },
+        {
+          href: "/hr/leave",
           icon: TransferWithinAStationIcon,
-          title: 'Leave Desk'
+          title: "Manage Leave",
         },
         {
-          href: '/employee/salary',
+          href: "/hr/salary",
           icon: AccountBalanceWalletIcon,
-          title: 'Salary Desk'
+          title: "Manage Salary",
         },
         {
-          href: '/employee/history',
-          icon: ListRoundedIcon,
-          title: 'History Desk'
-        },
-        {
-          href: '/employee/changepassword',
+          href: "/hr/changepassword",
           icon: SettingsIcon,
-          title: 'Change Password'
+          title: "Change Password",
         },
-        
+        {
+          href: "/hr/reports/employee",
+          icon: AssignmentIcon,
+          title: "Employee Reports",
+        },
+        {
+          href: "/hr/reports/tasks",
+          icon: AssignmentIcon,
+          title: "Tasks Reports",
+        },
+        {
+          href: "/hr/reports/leave",
+          icon: AssignmentIcon,
+          title: "Leave Reports",
+        },
+        {
+          href: "/hr/reports/salary",
+          icon: AssignmentIcon,
+          title: "Salary Reports",
+        },
+      ];
+
+    case "Admin":
+      return [
+        {
+          href: "/admin/dashboard",
+          icon: BarChartIcon,
+          title: "Dashboard",
+        },
+        {
+          href: "/admin/employees",
+          icon: UsersIcon,
+          title: "Manage Employees",
+        },
+        {
+          href: "/admin/designation",
+          icon: HowToRegIcon,
+          title: "Manage Designations",
+        },
+        {
+          href: "/admin/task",
+          icon: AssignmentIcon,
+          title: "Manage Task",
+        },
+        {
+          href: "/admin/leave",
+          icon: TransferWithinAStationIcon,
+          title: "Manage Leave",
+        },
+        {
+          href: "/admin/salary",
+          icon: AccountBalanceWalletIcon,
+          title: "Manage Salary",
+        },
+        {
+          href: "/admin/changepassword",
+          icon: SettingsIcon,
+          title: "Change Password",
+        },
+        {
+          href: "/admin/reports/employee",
+          icon: AssignmentIcon,
+          title: "Employee Reports",
+        },
+        {
+          href: "/admin/reports/tasks",
+          icon: AssignmentIcon,
+          title: "Tasks Reports",
+        },
+        {
+          href: "/admin/reports/leave",
+          icon: AssignmentIcon,
+          title: "Leave Reports",
+        },
+        {
+          href: "/admin/reports/salary",
+          icon: AssignmentIcon,
+          title: "Salary Reports",
+        },
+      ];
+
+    case "Employee":
+      return [
+        {
+          href: "/employee/dashboard",
+          icon: BarChartIcon,
+          title: "Dashboard",
+        },
+        {
+          href: "/employee/task",
+          icon: AssignmentTurnedInOutlinedIcon,
+          title: "Task Desk",
+        },
+        {
+          href: "/employee/leave",
+          icon: TransferWithinAStationIcon,
+          title: "Leave Desk",
+        },
+        {
+          href: "/employee/salary",
+          icon: AccountBalanceWalletIcon,
+          title: "Salary Desk",
+        },
+        {
+          href: "/employee/history",
+          icon: ListRoundedIcon,
+          title: "History Desk",
+        },
+        {
+          href: "/employee/changepassword",
+          icon: SettingsIcon,
+          title: "Change Password",
+        },
+
         // {
         //   href: '/employee/attendance',
         //   icon: UsersIcon,
         //   title: 'Manage Attendance'
         // },
-        
-
-       
-      ])
+      ];
 
     default:
       return null;
   }
-}
+};
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
-    width: 256
+    width: 256,
   },
   desktopDrawer: {
     width: 256,
     top: 64,
-    height: 'calc(100% - 64px)'
+    height: "calc(100% - 64px)",
   },
   avatar: {
-    cursor: 'pointer',
+    cursor: "pointer",
     width: 64,
-    height: 64
-  }
+    height: 64,
+  },
 }));
 
-const NavBar = ({ onMobileClose, openMobile, displayname}) => {
+const NavBar = ({ onMobileClose, openMobile, displayname }) => {
   const classes = useStyles();
-  const role = localStorage.getItem('role')
+
+  const role = localStorage.getItem("role");
   const user = {
-    avatar: '/static/images/avatars/avatar_5.png',
+    avatar: "/static/images/avatars/avatar_5.png",
     jobTitle: role,
   };
 
-
-  const items = getListItems(role)
+  const items = getListItems(role);
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
       <Box p={2}>
         <List>
-          {items.map((item) => (<NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />))}
+          {items.map((item) => (
+            <>
+              <NavItem
+                href={item.href}
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+              />
+            </>
+          ))}
         </List>
       </Box>
     </Box>
@@ -211,17 +264,17 @@ const NavBar = ({ onMobileClose, openMobile, displayname}) => {
 
 NavBar.propTypes = {
   onMobileClose: PropTypes.func,
-  openMobile: PropTypes.bool
+  openMobile: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
   onMobileClose: () => {},
-  openMobile: false
+  openMobile: false,
 };
 
-const maptostate = state =>{
+const maptostate = (state) => {
   return {
-    role : state.auth.role
-  }
-}
+    role: state.auth.role,
+  };
+};
 export default connect(maptostate)(NavBar);

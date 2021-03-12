@@ -1,6 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
 import {
   Avatar,
   Box,
@@ -9,33 +9,34 @@ import {
   Grid,
   Typography,
   colors,
-  makeStyles
-} from '@material-ui/core';
-import GroupIcon from '@material-ui/icons/Group';
+  makeStyles,
+} from "@material-ui/core";
+import GroupIcon from "@material-ui/icons/Group";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100%'
+    height: "100%",
   },
   avatar: {
     backgroundColor: colors.lightBlue[600],
     height: 56,
-    width: 56
+    width: 56,
   },
   differenceIcon: {
-    color: colors.lightBlue[900]
+    color: colors.lightBlue[900],
   },
   differenceValue: {
     color: colors.lightBlue[900],
-    marginRight: theme.spacing(1)
-  }
+    marginRight: theme.spacing(1),
+  },
 }));
 
-const Employees = ({ className, ...rest }) => {
+const Employees = ({ className, NoOfemployees, ...rest }) => {
   const classes = useStyles();
 
   return (
-    <Card className={clsx(classes.root, className)} {...rest} >
+    <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
@@ -43,7 +44,9 @@ const Employees = ({ className, ...rest }) => {
               Employees
             </Typography>
             <Typography color="textPrimary" variant="h3">
-              500
+              {NoOfemployees.employees !== null
+                ? NoOfemployees.employees.Employees.length
+                : 0}
             </Typography>
           </Grid>
           <Grid item>
@@ -58,7 +61,12 @@ const Employees = ({ className, ...rest }) => {
 };
 
 Employees.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
-export default Employees;
+const maptostate = (state) => {
+  return {
+    NoOfemployees: state.admin,
+  };
+};
+export default connect(maptostate)(Employees);

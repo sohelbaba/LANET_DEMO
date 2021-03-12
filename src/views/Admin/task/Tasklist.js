@@ -8,7 +8,8 @@ const Test = (props) =>{
     const columns = ["DateTime", "Username","ProjectName", "Technology", "Working Hour"];
     let data = null
     if(props.tasks !== null){
-      data = props.tasks.Tasks.map((row) =>(
+      const rows = [...props.tasks.Tasks].reverse()
+      data = rows.map((row) =>(
         [
             format(new Date(row['DateTime']),"EEE, dd MMM yyyy"),
             row['Username'],

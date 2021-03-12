@@ -8,6 +8,7 @@ import {
   Card,
   CardHeader,
   Divider,
+  Avatar,
   List,
   ListItem,
   ListItemText,
@@ -18,8 +19,15 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 const data = [
   {
     id: uuid(),
-    name: "Holi",
-    updatedAt: "29 March",
+    name: "Divyesh Patel",
+    imageUrl: "/static/images/avatars/avatar_1.png",
+    date: "26 March",
+  },
+  {
+    id: uuid(),
+    name: "Niresh Sharma",
+    imageUrl: "/static/images/avatars/avatar_5.png",
+    date: "28 March",
   },
 ];
 
@@ -39,14 +47,17 @@ const LatestProducts = ({ className, ...rest }) => {
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="Upcoming Holidays" />
+      <CardHeader title="Upcoming Birthdays" />
       <Divider />
       <List>
         {products.map((product, i) => (
           <ListItem divider={i < products.length - 1} key={product.id}>
+            <div style={{ marginRight: "8px" }}>
+              <Avatar src={product.imageUrl} />
+            </div>
             <ListItemText
               primary={product.name}
-              secondary={`${product.updatedAt}`}
+              secondary={`${product.date}`}
             />
           </ListItem>
         ))}

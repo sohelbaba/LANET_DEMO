@@ -7,7 +7,7 @@ const init_state = {
     leaves : null,
     serverError : null,
     salarydetails : null,
-
+    gradehistory: null
 }
 
 const UserReducer = (state = init_state,action) =>{
@@ -39,10 +39,15 @@ const UserReducer = (state = init_state,action) =>{
                 leaves : action.data
             }
         case actionTypes.FETCH_EMPLOYEE_SALARY_DETAILS:
-        return{
-            ...state,
-            salarydetails:action.data
-        }
+            return{
+                ...state,
+                salarydetails:action.data
+            }
+        case actionTypes.FETCH_EMPLOYEE_GRADE_HISTORY:
+            return{
+                ...state,
+                gradehistory : action.data
+            }
 
         default:
             return state;

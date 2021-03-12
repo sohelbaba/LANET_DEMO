@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { v4 as uuid } from 'uuid';
-import moment from 'moment';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import format from "date-fns/format";
 import {
   Box,
   Button,
@@ -12,102 +11,81 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
-  makeStyles
-} from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+  makeStyles,
+} from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import { connect } from "react-redux";
+import { fetch_leaves_start } from "src/store/action/Admin";
 
-const data = [
-  {
-    id: uuid(),
-    name: 'Dropbox',
-    imageUrl: '/static/images/products/product_1.png',
-    updatedAt: moment().subtract(2, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Medium Corporation',
-    imageUrl: '/static/images/products/product_2.png',
-    updatedAt: moment().subtract(2, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Slack',
-    imageUrl: '/static/images/products/product_3.png',
-    updatedAt: moment().subtract(3, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'Lyft',
-    imageUrl: '/static/images/products/product_4.png',
-    updatedAt: moment().subtract(5, 'hours')
-  },
-  {
-    id: uuid(),
-    name: 'GitHub',
-    imageUrl: '/static/images/products/product_5.png',
-    updatedAt: moment().subtract(9, 'hours')
-  }
-];
-
-const useStyles = makeStyles(({
+const useStyles = makeStyles({
   root: {
-    height: '100%'
+    height: "100%",
   },
   image: {
     height: 48,
-    width: 48
-  }
-}));
+    width: 48,
+  },
+});
 
-const LatestProducts = ({ className, ...rest }) => {
+const LatestProducts = ({
+  className,
+  OnLeavesGet,
+  token,
+  role,
+  leaves,
+  ...rest
+}) => {
   const classes = useStyles();
-  const [products] = useState(data);
+  React.useEffect(() => {
+    OnLeavesGet(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let arr = [];
+  if (leaves !== null) {
+    if (role === "Admin") {
+      leaves.Leaves.map((val) =>
+        val["Status"] === "Forward" ? arr.push(val) : null
+      );
+    }
+    if (role === "Hr") {
+      leaves.Leaves.map((val) =>
+        val["Status"] === "Pending" ? arr.push(val) : null
+      );
+      console.log(arr);
+    }
+  }
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
-      <CardHeader
-        subtitle={`${products.length} in total`}
-        title="Task List"
-      />
+    <Card className={clsx(classes.root, className)} {...rest}>
+      <CardHeader title="Leave Request List" />
       <Divider />
       <List>
-        {products.map((product, i) => (
-          <ListItem
-            divider={i < products.length - 1}
-            key={product.id}
-          >
-            <ListItemAvatar>
-              <img
-                alt="Product"
-                className={classes.image}
-                src={product.imageUrl}
+        {arr.length !== 0 ? (
+          arr.map((val, i) => (
+            <ListItem divider={i < arr.length - 1} key={val.id}>
+              <ListItemText
+                primary={val.Username}
+                secondary={
+                  "Apply on " +
+                  format(new Date(val["Apply Date"]), "EEE, dd MMM yyyy")
+                }
               />
-            </ListItemAvatar>
-            <ListItemText
-              primary={product.name}
-              secondary={`Updated ${product.updatedAt.fromNow()}`}
-            />
-            <IconButton
-              edge="end"
-              size="small"
-            >
-              <MoreVertIcon />
-            </IconButton>
+              <IconButton edge="end" size="small">
+                <MoreVertIcon />
+              </IconButton>
+            </ListItem>
+          ))
+        ) : (
+          <ListItem>
+            <ListItemText>No Pending Request</ListItemText>
           </ListItem>
-        ))}
+        )}
       </List>
       <Divider />
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        p={2}
-      >
+      <Box display="flex" justifyContent="flex-end" p={2}>
         <Button
           color="primary"
           endIcon={<ArrowRightIcon />}
@@ -122,7 +100,22 @@ const LatestProducts = ({ className, ...rest }) => {
 };
 
 LatestProducts.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
-export default LatestProducts;
+const maptostate = (state) => {
+  console.log(state.auth);
+  return {
+    token: state.auth.token,
+    role: state.auth.role,
+    leaves: state.admin.AllLeaves,
+  };
+};
+
+const maptodispatch = (dispatch) => {
+  return {
+    OnLeavesGet: (token) => dispatch(fetch_leaves_start(token)),
+  };
+};
+
+export default connect(maptostate, maptodispatch)(LatestProducts);

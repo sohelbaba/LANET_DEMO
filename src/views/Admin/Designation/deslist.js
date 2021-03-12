@@ -1,98 +1,152 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {IconButton} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import Collapse from '@material-ui/core/Collapse';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import {connect} from 'react-redux'
-import format from "date-fns/format"
-import CircularProgress  from '@material-ui/core/CircularProgress';
-import TablePagination from '@material-ui/core/TablePagination';
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 350,
-  },
-});
-
-
-function Customrow(props){
-  return(
-    <>
-      <TableRow key={props.row.Designation}>
-        <TableCell >{props.row.Designation}</TableCell>
-        <TableCell>{props.row.Basic}</TableCell>
-      </TableRow>
-    </>
-    )
-}
+import React from "react";
+import MUIDataTable from "mui-datatables";
+import { makeStyles } from "@material-ui/core/styles";
+import { IconButton } from "@material-ui/core";
+import { connect } from "react-redux";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Modal from "./Modal";
+import { update_designation, get_designations } from "src/store/action/Admin";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function DesList(props) {
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [desdata, setData] = React.useState({
+    designation: "",
+    basic: 0.0,
+  });
+  const [show, setShow] = React.useState(false);
+  const [call, setCall] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const columns = ["Designation", "Basic Salary", "Edit", "Delete"];
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  React.useEffect(() => {
+    setCall(false);
+    props.OnFetchDesignation(props.token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [call]);
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  let rows = null
-  if(props.designations !== null){
-    rows = [...props.designations.designation].reverse()
+  let rows = null;
+  let data = null;
+  if (props.designations !== null) {
+    rows = [...props.designations.designation].reverse();
+    data = rows.map((row) => [
+      row.Designation,
+      row.Basic.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+      }),
+      <IconButton
+        variant="outlined"
+        color="secondary"
+        onClick={() => edithandle(row)}
+      >
+        <EditIcon />
+      </IconButton>,
+      <IconButton variant="outlined" color="secondary">
+        <DeleteIcon />
+      </IconButton>,
+    ]);
   }
-  
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onChageHandle = (e) => {
+    const { name, value } = e.target;
+    // console.log(value);
+    setData((prevstate) => ({
+      ...prevstate,
+      [name]: value,
+    }));
+  };
+
+  const edithandle = (row) => {
+    // console.log(row);
+    setOpen(true);
+    setData((prevstate) => ({
+      designation: row.Designation,
+      basic: row.Basic,
+    }));
+  };
+
+  const adddesignation = (e) => {
+    e.preventDefault();
+    setOpen(false);
+    setShow(true);
+
+    props.onUpdateDesignation(desdata, props.token);
+    setCall(true);
+    setData((prevstate) => ({
+      designation: "",
+      basic: 0.0,
+    }));
+  };
+
+  const options = {
+    filterType: "dropdown",
+    rowsPerPageOptions: [5, 10, 15, 25, 50, 100],
+    rowsPerPage: 5,
+  };
+
+  let showsnak = null;
+  if (show) {
+    showsnak = (
+      <div>
+        <Snackbar
+          open={show}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          autoHideDuration={2000}
+          onClose={() => setShow(false)}
+        >
+          <Alert severity="success">Designation Updated Succesfully.</Alert>
+        </Snackbar>
+      </div>
+    );
+  }
 
   return (
     <>
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Designation</TableCell>
-            <TableCell>Basic</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows !== null ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => (
-            <Customrow row={row} key={index}/>
-          )) : <div style={{margin:'180px 450px auto'}}><CircularProgress /></div>}
-        </TableBody>
-      </Table>
-       <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows !== null ? rows.length : 0}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-    </TableContainer>
+      {rows !== null ? (
+        <>
+          <Modal
+            open={open}
+            adddesignation={adddesignation}
+            handleClose={handleClose}
+            onChageHandle={onChageHandle}
+            post={desdata}
+          />
+          <MUIDataTable
+            title={"Designation List"}
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        </>
+      ) : (
+        <div style={{ margin: "180px 450px auto" }}>
+          <CircularProgress />
+        </div>
+      )}
+      {showsnak}
     </>
   );
 }
 
-const maptostate = state =>{
-  console.log(state.user)
-  return{
-    // token : state.auth.token,
-    designations : state.admin.designation
-  }
-}
+const maptostate = (state) => {
+  console.log(state.admin);
+  return {
+    token: state.auth.token,
+    designations: state.admin.designation,
+  };
+};
 
-export default connect(maptostate)(DesList)
-
-
-
+const maptodispatch = (dispatch) => {
+  return {
+    OnFetchDesignation: (token) => dispatch(get_designations(token)),
+    onUpdateDesignation: (data, token) =>
+      dispatch(update_designation(data, token)),
+  };
+};
+export default connect(maptostate, maptodispatch)(DesList);
